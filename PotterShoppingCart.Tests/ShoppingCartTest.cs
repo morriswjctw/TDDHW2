@@ -66,7 +66,7 @@ namespace PotterShoppingCart.Tests
             var target = new Bill();
             var Product = new List<Potter> { new Potter{ BookClass = 1, BookName = "哈利波特1", Amount=1,  Price = 100 }};
 
-            var expected = 100;
+            int expected = 100;
             //Act
             int actual = target.Checkout(Product);
             //Assert
