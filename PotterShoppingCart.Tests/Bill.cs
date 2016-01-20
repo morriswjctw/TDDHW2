@@ -26,8 +26,22 @@ namespace PotterShoppingCart.Tests
         /// <returns></returns>
         internal int Checkout(List<Potter> Product)
         {
-            int BookGroupCount = Product.Sum(c => c.Amount);
-            int Total = Convert.ToInt32(Product.Select(c => c.Amount * c.Price).Sum() * Discount[BookGroupCount]);
+            var GroupList = Product.GroupBy(c => new { ClassId = c.BookClass, Price = c.Price })
+                .Select(g => new { Id = g.Key.ClassId, Total = g.Sum(c=>c.Amount), Price = g.Key.Price}).ToList();
+
+            int Total = 0;
+            int GroupMax = GroupList.Max(c => c.Total);
+            while (GroupMax > 0)
+            {
+                Total += Convert.ToInt32(
+                    GroupList.Where(c => c.Total >= GroupMax)
+                    .Select(c => c.Price).Sum() 
+                    * Discount[GroupList.Where(c => c.Total >= GroupMax).Count()]);
+                GroupMax--;
+            }
+
+            //int BookGroupCount = Product.Sum(c => c.Amount);
+            //int Total = Convert.ToInt32(Product.Select(c => c.Amount * c.Price).Sum() * Discount[BookGroupCount]);
             return Total;
         }
     }
