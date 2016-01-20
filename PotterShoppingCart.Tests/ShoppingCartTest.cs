@@ -164,5 +164,23 @@ namespace PotterShoppingCart.Tests
             //Assert
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void 第1集1本第2集2本第3集2本_價格應為460()
+        {
+            //Arrange
+            var target = new Bill();
+            var Product = new List<Potter> { 
+                new Potter { BookClass = 1, BookName = "哈利波特1", Amount = 1, Price = 100 },
+                new Potter { BookClass = 2, BookName = "哈利波特2", Amount = 2, Price = 100 },
+                new Potter { BookClass = 3, BookName = "哈利波特3", Amount = 2, Price = 100 }
+            };
+
+            int expected = 460;
+            //Act
+            int actual = target.Checkout(Product);
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
